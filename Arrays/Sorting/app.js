@@ -3,6 +3,10 @@
 //~ selection
 //~ merge
 
+// quick sort
+// heap sort
+// timsort
+
 /* 
 !-----------------------------------------------------------------------------!
 ! PRACTICAL SORTING TECHNIQUES for JavaScript Development                     !
