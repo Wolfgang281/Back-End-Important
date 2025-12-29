@@ -29,7 +29,6 @@ function findElement(arr, target) {
 //! we will go with ascending order
 
 //~ =============================== bubble sort =======================================
-
 //! bubble sort --> in this each element is compared with adjacent elements, and smaller element is placed on the left side of the array (swapping). after every iteration the largest element will be sorted
 // let arr = [1, 43, 31, 2, 90, 12, 23, 67, 10];
 // let arr = [1, 31, 43, 2, 90, 12, 23, 67, 10];
@@ -72,7 +71,7 @@ function bubbleSort(arr) {
 
 //~ =============================== selection sort =======================================
 //! selection sort --> in this, we find the minimum element present in the array and swap it  with the value of i or starting element of the array, after every iteration the minimum element is sorted.
-let arr = [15, 43, 2, 2, 90, 12, 23, 67, 10];
+// let arr = [15, 43, 2, 2, 90, 12, 23, 67, 10];
 function selectionSort(arr) {
   let size = arr.length;
   for (let i = 0; i < size - 1; i++) {
@@ -115,16 +114,99 @@ function insertionSort(arr) {
 //! given two sorted array, merge the arrays such that the resultant array remains sorted (TC ==> O(n+m))
 //? O(n log n)
 let arr1 = [1, 6, 23, 34];
-let arr2 = [5, 8, 12, 90];
-function mergeTwoSortedArr(arr1, arr2) {
-  let result = [...arr1, ...arr2];
-  //! applied bubble sort
-}
+let arr2 = [5, 8, 12, 90, 100, 120];
+// function mergeTwoSortedArr(arr1, arr2) {
+//   let result = [...arr1, ...arr2];
+//   //! applied bubble sort
+//   // result.sort()
+// }
 //! TC ==> O(n^2) --> O(n)
 //! TC ==> O(n+m)
+
+//! all for loop are iterating the same array
+// for (let i = 0; i < n; i++) {
+//    for (let k = 0; k < n; k++) {
+//        for (let j = 0; j < n; j++) {}
+// }
+// }
+
+//! TC ==> O(n^3)
 
 //! all for loop are iterating the same array
 // for (let i = 0; i < n; i++) {}
 // for (let j = 0; j < n; j++) {}
 // for (let k = 0; k < n; k++) {}
-//! TC ==> O(n)
+//! TC ==> O(n+3)s
+
+function mergeTwoSortedArr(arr1, arr2) {
+  let result = [];
+  let i = 0,
+    j = 0,
+    k = 0;
+  let n = arr1.length;
+  let m = arr2.length;
+  while (i < n && j < m) {
+    if (arr1[i] <= arr2[j]) {
+      result[k++] = arr1[i++];
+    } else {
+      result[k++] = arr2[j++];
+    }
+  }
+  //! arr1
+  while (i < n) {
+    result[k++] = arr1[i++];
+  }
+  //! arr2
+  while (j < m) {
+    result[k++] = arr2[j++];
+  }
+  console.log(result);
+}
+
+// mergeTwoSortedArr(arr1, arr2);
+
+//! TC and SC ==> o(n+m) == O(n)
+
+//~ =============================== merge sort =======================================
+//! divide and conquer ==> in this, array is divided into two halves until the array contains only single element (using recursion), and then it is merged (using merge two sorted arrays technique)
+let arr = [15, 43, 100, 24, 2, 2, 90, 12, 23, 67, 10];
+
+function mergeSort(arr) {
+  let tempArr = new Array(arr.length);
+  sort(arr, tempArr, 0, arr.length - 1);
+  console.log(arr);
+}
+
+function sort(arr, temp, left, right) {
+  if (left >= right) return;
+  let mid = Math.floor((left + right) / 2);
+  sort(arr, temp, left, mid);
+  sort(arr, temp, mid + 1, right);
+
+  merge(arr, temp, left, mid, right);
+}
+
+function merge(arr, temp, left, mid, right) {
+  let i = left,
+    j = mid + 1,
+    k = left;
+
+  while (i <= mid && j <= right) {
+    if (arr[i] <= arr[j]) temp[k++] = arr[i++];
+    else temp[k++] = arr[j++];
+  }
+
+  while (i <= mid) temp[k++] = arr[i++];
+  while (j <= right) temp[k++] = arr[j++];
+
+  for (let i = left; i <= right; i++) {
+    arr[i] = temp[i];
+  }
+}
+
+// mergeSort(arr);
+
+//! TC ==> O(n log n)
+//! SC ==> ?
+
+//! question --> techniques (binary search, two/three pointer, sliding window (dynamic), etc....)
