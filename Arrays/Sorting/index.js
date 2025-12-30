@@ -5,6 +5,8 @@
 // target element = x (depends on input array size)
 // time complexity --> best case:    worst case:   average case:
 
+//! bubble, insertion, selection are in-place sorting algo
+
 //! if the code is not depending upon the input ds (arrays, strings) size, in that case TC is constant -> O(1)
 
 // if the code is depending upon the input ds (arrays, strings) size, in that case TC will be O(n) , where n is size of the array or string
@@ -207,6 +209,8 @@ function merge(arr, temp, left, mid, right) {
 // mergeSort(arr);
 
 //! TC ==> O(n log n)
-//! SC ==> ?
+//! SC ==> O(n) + O(log n) (recursive calls) => O(n)
+
+//! tc is indirectly proportional to sc
 
 //! question --> techniques (binary search, two/three pointer, sliding window (dynamic), etc....)

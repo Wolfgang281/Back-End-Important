@@ -86,3 +86,8 @@
 ! 4. Never implement joke/obscure sorts in production code                  !
 !---------------------------------------------------------------------------!
 */
+
+//! in binary search --> 1) we find the mid element,
+// a) mid value === target (return)
+// b) target < mid value(discard the right half)
+// c) target > mid value (discard the left half)
