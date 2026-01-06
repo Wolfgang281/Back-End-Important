@@ -14,11 +14,11 @@ fs.readFileSync();
 // setTimeout();
 // setInterval();
 // Promise;
+// queueMicrotask();
 
 //! only for NodeJS
-// nextTick();
-// setImmediate();
-// queueMicrotask();
+// process.nextTick(cb);
+// setImmediate(cb);
 
 //? in browser, we have only two queues (micro(Promise, queueMicrotask) and macro(task queue --> DOM, events, setTimeout, setInterval, etc.))
 //? out of which priority is given to microtask queue over macrotask queue
@@ -38,3 +38,7 @@ console.log(3);
 // ! native IO events (windows IOCP, macOS kqueue, Linux epoll)
 
 // asynchronous I/O operations (database call, file read/write, network calls) are handled by libuv in NodeJS
+
+//? in nodeJs we have two queues
+// microtask (nextTick queue, Promise queue)
+// macrotask (timer, I/O, check, close)

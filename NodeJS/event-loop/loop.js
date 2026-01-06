@@ -4,25 +4,25 @@
 
 // process.nextTick(callback);
 
-console.log("1");
+// console.log("1");
 
-process.nextTick(() => {
-  console.log("this is NT 1");
-});
+// process.nextTick(() => {
+//   console.log("this is NT 1");
+// });
 
-queueMicrotask(() => {
-  console.log("QM before Promise");
-});
+// queueMicrotask(() => {
+//   console.log("QM before Promise");
+// });
 
-Promise.resolve().then(() => {
-  console.log("this is promise");
-});
+// Promise.resolve().then(() => {
+//   console.log("this is promise");
+// });
 
-queueMicrotask(() => {
-  console.log("QM after Promise");
-});
+// queueMicrotask(() => {
+//   console.log("QM after Promise");
+// });
 
-console.log("2");
+// console.log("2");
 
 //? out of nextTick queue and promise queue, nextTick has more priority
 
@@ -155,3 +155,163 @@ console.log("2");
 //     console.log("this is the inner promise inside Promise then block")
 //   );
 // });
+
+//~ =====================================================================================
+
+// process.nextTick(() => {
+//   console.log("NT1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p2");
+//   process.nextTick(() => {
+//     console.log("NT2");
+//   });
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p3");
+//   Promise.resolve().then(() => {
+//     console.log("p4");
+//   });
+// });
+
+// process.nextTick(() => {
+//   console.log("NT3");
+// });
+
+//! ==============================timer queue=============================================
+//~ ================================  ================================================
+//!
+// setTimeout(() => {
+//   console.log("st1");
+// }, 4000);
+
+// setTimeout(() => {
+//   console.log("st2");
+// }, 2000);
+
+// process.nextTick(() => {
+//   console.log("nt1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p1");
+// });
+
+//~ ============================================================================================
+// index.js
+// setTimeout(() => {
+//   console.log("this is setTimeout 1");
+// }, 0);
+
+// setTimeout(() => {
+//   console.log("this is setTimeout 2");
+// }, 0);
+
+// setTimeout(() => {
+//   console.log("this is setTimeout 3");
+// }, 0);
+
+// process.nextTick(() => {
+//   console.log("this is process.nextTick 1");
+// });
+
+// process.nextTick(() => {
+//   console.log("this is process.nextTick 2");
+//   process.nextTick(() =>
+//     console.log("this is the inner next tick inside next tick")
+//   );
+// });
+
+// process.nextTick(() => {
+//   console.log("this is process.nextTick 3");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("this is Promise.resolve 1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("this is Promise.resolve 2");
+//   process.nextTick(() =>
+//     console.log("this is the inner next tick inside Promise then block")
+//   );
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("this is Promise.resolve 3");
+// });
+
+//~ ================================================================================================================
+// index.js
+// setTimeout(() => {
+//   console.log("st1");
+// }, 0);
+
+// setTimeout(() => {
+//   console.log("st2");
+//   process.nextTick(() => console.log("nt1"));
+// }, 0);
+
+// setTimeout(() => {
+//   console.log("st3");
+// }, 0);
+
+// process.nextTick(() => {
+//   console.log("nt2");
+// });
+
+// process.nextTick(() => {
+//   console.log("nt3");
+//   process.nextTick(() => console.log("nt4"));
+// });
+
+// process.nextTick(() => {
+//   console.log("nt5");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p2");
+//   process.nextTick(() => console.log("nt6"));
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("p3");
+// });
+
+//& Callbacks in microtask queues are executed in between the execution of callbacks in the timer queue
+
+//~ =======================================================================================
+// index.js
+// const fs = require("fs");
+import fs from "fs";
+
+// fs.readFile(__filename, () => {
+//   console.log("this is readFile 1");
+// });
+
+// process.nextTick(() => console.log("this is process.nextTick 1"));
+
+// Promise.resolve().then(() => console.log("this is Promise.resolve 1"));
+
+//~ =======================================================================================
+
+fs.readFile(import.meta.filename, () => {
+  console.log("this is readFile 1");
+});
+
+setTimeout(() => {
+  console.log("st1");
+}, 0);
+
+//? delay is not 0 millisecond (the internal implementation of setTimeout() code takes the delay as MAX(input,1))
+//! so the delay is never 0 ms, it is set to the minimum value i.e, 1 ms

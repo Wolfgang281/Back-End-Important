@@ -6,10 +6,14 @@ set.add("apple");
 set.add("mango");
 set.add("apple");
 
-console.log(set);
+// console.log(set);
 
-console.log(set.has("fruit"));
-console.log(set.size);
-console.log(set.delete("mango"));
-console.log(set.clear());
-console.log(set);
+// console.log(set.has("fruit"));
+// console.log(set.size);
+// console.log(set.delete("mango"));
+// console.log(set.clear());
+// console.log(set);
+
+for (let ele of set) {
+  console.log(set);
+}
