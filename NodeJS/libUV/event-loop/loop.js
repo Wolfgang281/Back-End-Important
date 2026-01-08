@@ -291,9 +291,10 @@
 //& Callbacks in microtask queues are executed in between the execution of callbacks in the timer queue
 
 //~ =======================================================================================
+//~ ============================ io queue ===============================================
 // index.js
 // const fs = require("fs");
-import fs from "fs";
+// import fs from "fs";
 
 // fs.readFile(__filename, () => {
 //   console.log("this is readFile 1");
@@ -305,13 +306,118 @@ import fs from "fs";
 
 //~ =======================================================================================
 
-fs.readFile(import.meta.filename, () => {
-  console.log("this is readFile 1");
-});
+// fs.readFile(import.meta.filename, () => {
+//   console.log("this is readFile 1");
+// });
 
-setTimeout(() => {
-  console.log("st1");
-}, 0);
+// setTimeout(() => {
+//   console.log("st1");
+// }, 0);
 
 //? delay is not 0 millisecond (the internal implementation of setTimeout() code takes the delay as MAX(input,1))
 //! so the delay is never 0 ms, it is set to the minimum value i.e, 1 ms
+
+//! io polling --> all callbacks related to io queue are not added in the queue directly, callbacks are added after io polling (if completed) then the callbacks
+
+//! ========================================================================================
+
+// setImmediate(() => {
+//   console.log("set imm");
+// }); // all callbacks related to setImmediate function, are added to check queue
+
+//! ========================================================================================
+//? setImmediate callbacks are added in the check queue
+
+// index.js
+// const fs = require("fs");
+
+// fs.readFile(__filename, () => {
+//   console.log("this is readFile 1");
+// });
+
+// process.nextTick(() => {
+//   console.log("this is process.nextTick 1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("this is Promise.resolve 1");
+// });
+
+// setTimeout(() => {
+//   console.log("this is setTimeout 1");
+// }, 0);
+
+// setImmediate(() => {
+//   console.log("this is setImmediate 1");
+// });
+
+// for (let i = 0; i < 2000000000; i++) {} // 3ms
+
+//! ============================== exception =====================
+// setTimeout(() => {
+//   console.log("timeout");
+// }, 0);
+
+// setImmediate(() => {
+//   console.log("immediate");
+// });
+
+//! in this --> op order cannot be determined
+
+//! ==================================================================================
+// index.js
+// const fs = require("fs");
+
+// fs.readFile(__filename, () => {
+//   console.log("this is readFile 1");
+
+//   setImmediate(() => {
+//     console.log("this is setImmediate 1");
+//   });
+
+//   process.nextTick(() =>
+//     console.log("this is inner process.nextTick inside readFile")
+//   );
+
+//   Promise.resolve().then(() =>
+//     console.log("this is inner Promise.resolve inside readFile")
+//   );
+// });
+
+// process.nextTick(() => {
+//   console.log("this is process.nextTick 1");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("this is Promise.resolve 1");
+// });
+
+// setTimeout(() => {
+//   console.log("this is setTimeout 1");
+// }, 2);
+
+//! ======================================================================================
+// const fs = require("fs");
+
+// fs.readFile(__filename, () => {
+//   console.log("this is readFile 1");
+// });
+
+// process.nextTick(() =>
+//   console.log("this is inner process.nextTick inside readFile")
+// );
+
+// Promise.resolve().then(() =>
+//   console.log("this is inner Promise.resolve inside readFile")
+// );
+
+// setTimeout(() => {
+//   console.log("st");
+// }, 1000);
+
+// setImmediate(() => {
+//   console.log("this is setImmediate 1");
+// });
+
+//! =============================== close queue ========================================
+//! all callbacks related to closing events are added to close queue
