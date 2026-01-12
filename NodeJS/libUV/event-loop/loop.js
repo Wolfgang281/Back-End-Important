@@ -368,6 +368,8 @@
 // index.js
 // const fs = require("fs");
 
+//! all callbacks related to IO queue, will only get added after IO polling
+
 // fs.readFile(__filename, () => {
 //   console.log("this is readFile 1");
 
@@ -421,3 +423,30 @@
 
 //! =============================== close queue ========================================
 //! all callbacks related to closing events are added to close queue
+
+//& -==========================================================================
+//! all callbacks related to IO queue, will only get added after IO polling
+
+const fs = require("fs");
+
+for (let i = 0; i < 1000000000; i++) {}
+
+fs.readFile(__filename, () => {
+  console.log("readFile1");
+});
+
+process.nextTick(() => {
+  console.log("nt1");
+});
+
+setTimeout(() => {
+  console.log("st1");
+}, 4);
+
+setImmediate(() => {
+  console.log("immediate1");
+}); // check queue
+
+setTimeout(() => {
+  console.log("st2");
+}, 1000);
