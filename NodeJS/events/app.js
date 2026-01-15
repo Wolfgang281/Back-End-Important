@@ -1,46 +1,63 @@
-//! events in nodeJS --> special way to handle asynchronous code (callback) (decoupling the code)
-//! in nodeJS, event-emitter is a built class which is used to create custom events
+// //! events in nodeJS --> special way to handle asynchronous code (callback) (decoupling the code)
+// //! in nodeJS, event-emitter is a built class which is used to create custom events
 
-import EventEmitter from "events";
+// import EventEmitter from "events";
 
-let event = new EventEmitter();
+// let event = new EventEmitter();
 
-//! to create an event --> emit("eventName", data1, data2,.....)
-//! to listen to an event --> on("eventName", callback)
-//? always declare on() before emit()
+// //! to create an event --> emit("eventName", data1, data2,.....)
+// //! to listen to an event --> on("eventName", callback)
+// //? always declare on() before emit()
 
-// event.on("hi", (payload) => {
-//   console.log(payload);
-//   console.log("hi event triggered");
+// event.on("mailEvent", () => {
+//   console.log("mail sent");
 // });
 
-// event.on("hi", () => {
-//   console.log("hi event triggered, listening 2nd time");
+// event.on("otpEvent", (otp) => {
+//   console.log("otp sent");
+//   console.log(otp);
 // });
 
-// event.on("hi", () => {
-//   console.log("hi event triggered, listening 3rd time");
-// });
+// function registerUser() {
+//   // code
+//   //! mail
+//   event.emit("mailEvent", "userData");
+//   //! otp
+//   event.emit("otp-Event", "46578");
+//   console.log("user registered");
+// }
 
-// event.on("hello", () => {
-//   console.log("hello event triggered");
-// });
+// // registerUser();
 
-// event.emit("hi", { name: "abc", age: 23 }); // created an event with the name as "hi"
-// event.emit("hello"); // created an event with the name as "hello"
+// //! you have create your own event emitter class
+// // let eventsObject = {
+// //   mailEvent: [fn1, fn2],
+// //   otpEvent: [],
+// // };
 
-// console.log("hi");
+// // class MyEventEmitter {
+// //   eventsObject = {};
 
-// event.on("done", () => {
-//   console.log("op done");
-// });
+// //   addListener(eventName, cb) {
+// //     this.eventsObject[eventName] = this.eventsObject[eventName] || [];
+// //     this.eventsObject[eventName].push(cb);
+// //   }
+// // }
 
-event.once("done", () => {
-  console.log("op done once");
+import Eventemitter from "events";
+
+let event = new Eventemitter();
+
+event.once("e1", () => {
+  console.log("once event called");
 });
 
-event.emit("done");
+event.on("someOtherEvent", () => {
+  console.log("some other");
+});
 
-event.emit("done");
+event.emit("e1");
 
-event.emit("done");
+event.on("error");
+
+// https://www.freecodecamp.org/news/how-to-code-your-own-event-emitter-in-node-js-a-step-by-step-guide-e13b7e7908e1/

@@ -20,6 +20,7 @@ app.get("/blocking", (req, res) => {
 
   worker.on("error", (err) => {
     console.log(err);
+    res.send("error");
   });
 });
 
